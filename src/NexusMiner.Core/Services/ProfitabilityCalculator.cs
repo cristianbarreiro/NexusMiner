@@ -33,7 +33,7 @@ public sealed class ProfitabilityCalculator
                         * uptimeRatio;
         var electricityCostUyu = energyKwh * input.ElectricityPriceUyuPerKwh;
         var netUyu = grossUyu - poolFeeUyu - electricityCostUyu - input.OtherMonthlyCostsUyu;
-        var breakEvenRate = energyKwh > 0m
+        decimal? breakEvenRate = energyKwh > 0m
             ? (grossUyu - poolFeeUyu - input.OtherMonthlyCostsUyu) / energyKwh
             : null;
 

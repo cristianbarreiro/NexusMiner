@@ -1,5 +1,6 @@
 using NexusMiner.Core.Models;
 using NexusMiner.Core.Services;
+using Xunit;
 
 namespace NexusMiner.Core.Tests;
 
