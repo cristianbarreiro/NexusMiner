@@ -1,4 +1,7 @@
 using System.Globalization;
+using System.IO;
+using Microsoft.Win32;
+using System.Windows.Controls;
 using System.Windows;
 using NexusMiner.Core.Models;
 using NexusMiner.Core.Services;
@@ -10,6 +13,137 @@ public partial class MainWindow : Window
 {
     private readonly HardwareAnalyzer _hardwareAnalyzer = new();
     private readonly ProfitabilityCalculator _calculator = new();
+
+    private readonly XMRigBenchmarkRunner _benchmarkRunner = new();
+    private CancellationTokenSource? _benchmarkCancellation;
+
+    private void SelectXMRigButton_Click(object sender, RoutedEventArgs e)
+    {
+        var dialog = new OpenFileDialog
+        {
+            Title = "Seleccionar XMRig",
+            Filter = "XMRig executable (xmrig.exe)|xmrig.exe|Executable files (*.exe)|*.exe",
+            CheckFileExists = true,
+            Multiselect = false
+        };
+
+        if (dialog.ShowDialog(this) != true)
+            return;
+
+        if (!string.Equals(Path.GetFileName(dialog.FileName), "xmrig.exe", StringComparison.OrdinalIgnoreCase))
+        {
+            BenchmarkStatusText.Text = "Selecciona el archivo llamado xmrig.exe descargado desde el repositorio oficial de XMRig.";
+            return;
+        }
+
+        XMRigPathBox.Text = dialog.FileName;
+        BenchmarkStatusText.Text = "Ejecutable seleccionado. La prueba será local y offline.";
+    }
+
+    private async void RunRandomXBenchmarkButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (_benchmarkCancellation is not null)
+            return;
+
+        var executablePath = XMRigPathBox.Text.Trim();
+        if (string.IsNullOrWhiteSpace(executablePath) || !File.Exists(executablePath))
+        {
+            BenchmarkStatusText.Text = "Selecciona primero un xmrig.exe existente.";
+            return;
+        }
+
+        var size = (BenchmarkSizeBox.SelectedItem as ComboBoxItem)?.Tag?.ToString() ?? "250K";
+        var threadText = (BenchmarkThreadsBox.SelectedItem as ComboBoxItem)?.Tag?.ToString() ?? "1";
+        if (!int.TryParse(threadText, NumberStyles.None, CultureInfo.InvariantCulture, out var threadCount))
+        {
+            BenchmarkStatusText.Text = "La cantidad de hilos seleccionada no es válida.";
+            return;
+        }
+
+        var options = new RandomXBenchmarkOptions { BenchmarkSize = size, ThreadCount = threadCount };
+        try
+        {
+            options.Validate(Environment.ProcessorCount);
+        }
+        catch (ArgumentOutOfRangeException ex)
+        {
+            BenchmarkStatusText.Text = ex.Message;
+            return;
+        }
+
+        var benchmarkCancellation = new CancellationTokenSource();
+        _benchmarkCancellation = benchmarkCancellation;
+        RunRandomXBenchmarkButton.IsEnabled = false;
+        StopRandomXBenchmarkButton.IsEnabled = true;
+        SelectXMRigButton.IsEnabled = false;
+        BenchmarkLogTextBox.Clear();
+        BenchmarkHashrateResult.Text = "—";
+        BenchmarkElapsedResult.Text = "—";
+        BenchmarkChecksumResult.Text = "—";
+        BenchmarkStatusText.Text = $"Ejecutando RandomX rx/0 · {options.NormalizedBenchmarkSize} · {options.ThreadCount} hilo(s). Puedes cancelar en cualquier momento.";
+        AppendBenchmarkOutput($"[{DateTime.Now:G}] Inicio de benchmark offline. No se enviarán resultados.");
+
+        try
+        {
+            var execution = await _benchmarkRunner.RunOfflineAsync(
+                executablePath,
+                options,
+                AppendBenchmarkOutput,
+                benchmarkCancellation.Token);
+
+            if (RandomXBenchmarkOutputParser.TryParse(execution.Output, out var measurement) && measurement is not null)
+            {
+                BenchmarkHashrateResult.Text = $"{measurement.HashrateHps:N1} H/s";
+                BenchmarkElapsedResult.Text = $"{measurement.ElapsedSeconds:N2} s";
+                BenchmarkChecksumResult.Text = measurement.Checksum;
+                BenchmarkStatusText.Text = execution.TerminatedAfterCompletion || execution.ExitCode == 0
+                    ? "Benchmark completado. El proceso se cerró al terminar el cálculo; no se publicó ningún resultado."
+                    : $"Se obtuvo un resumen, pero XMRig terminó con código {execution.ExitCode}. Revisa el registro.";
+            }
+            else
+            {
+                BenchmarkStatusText.Text = $"No se encontró el resumen final de XMRig (código {execution.ExitCode}). Revisa el registro y la versión del ejecutable.";
+            }
+        }
+        catch (OperationCanceledException)
+        {
+            BenchmarkStatusText.Text = "Benchmark cancelado. El proceso de XMRig fue detenido.";
+            AppendBenchmarkOutput($"[{DateTime.Now:G}] Prueba cancelada por el usuario.");
+        }
+        catch (Exception ex)
+        {
+            BenchmarkStatusText.Text = $"No se pudo ejecutar el benchmark: {ex.Message}";
+            AppendBenchmarkOutput($"ERROR: {ex}");
+        }
+        finally
+        {
+            benchmarkCancellation.Dispose();
+            if (ReferenceEquals(_benchmarkCancellation, benchmarkCancellation))
+                _benchmarkCancellation = null;
+
+            RunRandomXBenchmarkButton.IsEnabled = true;
+            StopRandomXBenchmarkButton.IsEnabled = false;
+            SelectXMRigButton.IsEnabled = true;
+        }
+    }
+
+    private void StopRandomXBenchmarkButton_Click(object sender, RoutedEventArgs e)
+    {
+        _benchmarkCancellation?.Cancel();
+    }
+
+    private void AppendBenchmarkOutput(string line)
+    {
+        if (!Dispatcher.CheckAccess())
+        {
+            Dispatcher.BeginInvoke(new Action(() => AppendBenchmarkOutput(line)));
+            return;
+        }
+
+        BenchmarkLogTextBox.AppendText(line + Environment.NewLine);
+        BenchmarkLogTextBox.ScrollToEnd();
+    }
+
 
     public MainWindow()
     {

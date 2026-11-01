@@ -1,9 +1,12 @@
 {
   "name": "NexusMiner",
-  "version": "0.1.0",
-  "description": "Windows desktop hardware analyzer and manual mining profitability simulator",
+  "version": "0.2.0",
+  "description": "Windows desktop hardware analyzer, profitability simulator and offline RandomX benchmark",
   "mining_enabled": false,
+  "offline_benchmark_enabled": true,
   "network_access_from_app": false,
+  "pool_connection_enabled": false,
+  "benchmark_submission_enabled": false,
   "target_framework": "net10.0-windows",
   "projects": [
     "src/NexusMiner.Core/NexusMiner.Core.csproj",
