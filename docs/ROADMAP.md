@@ -1,38 +1,36 @@
 # Roadmap
 
-## MVP 0.1 — incluido
-
+## MVP 0.1 — completado
 - [x] Detección local de CPU, RAM, GPU y sistema operativo mediante WMI.
-- [x] Simulador con inputs manuales y cálculos deterministas.
-- [x] Cálculo de monedas esperadas, ingresos, energía, comisión y neto.
-- [x] Pruebas unitarias de validación y fórmulas.
-- [x] Aplicación WPF para Windows.
+- [x] Simulador financiero con parámetros manuales y cálculos deterministas.
+- [x] Validación y pruebas unitarias de las fórmulas.
 
-## MVP 0.2 — medir antes de minar
+## MVP 0.2 — benchmark offline
+- [x] Pestaña CPU Benchmark en WPF.
+- [x] Integración opt-in con el modo benchmark offline de XMRig.
+- [x] Selección explícita de xmrig.exe; no se descarga ni instala automáticamente.
+- [x] Parámetros restringidos a RandomX rx/0, tamaños 250K/500K/1M y selección de hilos.
+- [x] Prioridad baja y huge pages desactivadas.
+- [x] Cancelación y cierre automático al detectar el resumen final.
+- [x] Parser de hashrate, duración y checksum con pruebas unitarias.
+- [ ] Validar compilación y ejecución de extremo a extremo en Windows con XMRig oficial.
 
-- [ ] Historial local de snapshots de hardware.
-- [ ] Medición de consumo por medidor externo o input manual documentado.
-- [ ] Benchmark CPU no relacionado con minería para verificar estabilidad térmica.
-- [ ] Exportación CSV de escenarios.
-- [ ] Comparación de escenarios conservador/base/optimista.
+## MVP 0.3 — medición y análisis
+- [ ] Historial local de resultados de benchmark en SQLite.
+- [ ] Asociar resultados con snapshots de hardware y configuración de hilos.
+- [ ] Importar el hashrate medido al Profitability Simulator.
+- [ ] Añadir escenarios conservador/base/optimista.
+- [ ] Medición de consumo con medidor externo e importación manual.
+- [ ] Telemetría térmica solo mediante sensores compatibles.
 
-## MVP 0.3 — benchmark de algoritmo
-
-- [ ] Integrar un benchmark explícito y opt-in para un algoritmo elegido.
-- [ ] Mostrar temperatura y frecuencia solo cuando exista una fuente de telemetría compatible.
-- [ ] Límites de duración, temperatura y uso configurables.
-- [ ] No iniciar benchmarks de forma automática ni al arrancar Windows.
-
-## MVP 0.4 — minería real (solo tras revisión)
-
-- [ ] Evaluar integración opcional con un minero externo conocido.
-- [ ] Descarga verificable, versión fija y checksum del binario.
-- [ ] Consentimiento explícito antes de ejecutar procesos de minería.
-- [ ] Pool, wallet y comisión siempre configurados por el usuario.
-- [ ] Botón de parada, límites térmicos y registro de eventos.
+## MVP 0.4 — evaluación de minería real (sujeta a decisión)
+- [ ] Revisar licencias, versiones y hashes de cualquier motor externo.
+- [ ] Mantener la minería deshabilitada por defecto y exigir consentimiento explícito.
+- [ ] No añadir pools ni wallets predeterminados.
+- [ ] Añadir límites de temperatura, consumo, tiempo y parada de emergencia.
+- [ ] Evaluar rentabilidad actualizada antes de habilitar cualquier operación.
 
 ## MVP 1.0
-
-- [ ] Integración de cotizaciones con fuente configurable y marca temporal.
+- [ ] Cotizaciones y datos de red con fuente y marca temporal.
 - [ ] Tarifas eléctricas configurables por tramo.
-- [ ] Recomendación de no operar cuando el neto esperado sea negativo o la calidad de datos sea insuficiente.
+- [ ] Recomendar no operar cuando los datos sean insuficientes o el beneficio neto esperado sea negativo.
