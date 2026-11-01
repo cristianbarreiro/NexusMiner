@@ -1,0 +1,14 @@
+{
+  "name": "NexusMiner",
+  "version": "0.1.0",
+  "description": "Windows desktop hardware analyzer and manual mining profitability simulator",
+  "mining_enabled": false,
+  "network_access_from_app": false,
+  "target_framework": "net10.0-windows",
+  "projects": [
+    "src/NexusMiner.Core/NexusMiner.Core.csproj",
+    "src/NexusMiner.Infrastructure.Windows/NexusMiner.Infrastructure.Windows.csproj",
+    "src/NexusMiner.Desktop/NexusMiner.Desktop.csproj",
+    "tests/NexusMiner.Core.Tests/NexusMiner.Core.Tests.csproj"
+  ]
+}

@@ -1,0 +1,150 @@
+<Window x:Class="NexusMiner.Desktop.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="NexusMiner" Height="820" Width="1120" MinHeight="700" MinWidth="900"
+        WindowStartupLocation="CenterScreen" Background="{StaticResource WindowBackground}">
+    <Grid Margin="22">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <DockPanel Grid.Row="0" Margin="0,0,0,16">
+            <StackPanel>
+                <TextBlock Text="NexusMiner" FontSize="28" FontWeight="SemiBold" />
+                <TextBlock Text="Hardware Analyzer · Profitability Simulator" Foreground="{StaticResource MutedBrush}" Margin="0,4,0,0" />
+            </StackPanel>
+            <Border DockPanel.Dock="Right" Background="#14352F" BorderBrush="#236B5B" BorderThickness="1" CornerRadius="8" Padding="12,7" VerticalAlignment="Center">
+                <TextBlock Text="MVP · SIN MINERÍA REAL" Foreground="#8BE0C6" FontSize="11" FontWeight="SemiBold" />
+            </Border>
+        </DockPanel>
+
+        <Border Grid.Row="1" Background="#112A40" BorderBrush="#1E4967" BorderThickness="1" CornerRadius="8" Padding="12" Margin="0,0,0,14">
+            <TextBlock TextWrapping="Wrap" Foreground="#C8DDF0">
+                Esta versión no mina ni se conecta a Internet. Detecta hardware local y calcula escenarios con datos de mercado, red y electricidad introducidos manualmente.
+            </TextBlock>
+        </Border>
+
+        <TabControl Grid.Row="2" Background="{StaticResource PanelBackground}" BorderBrush="#24364E">
+            <TabItem Header="Hardware Analyzer">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="18">
+                        <TextBlock Text="Equipo detectado" FontSize="21" FontWeight="SemiBold" />
+                        <TextBlock Text="Consulta información de Windows mediante WMI. No se ejecutan benchmarks ni pruebas de carga." Foreground="{StaticResource MutedBrush}" TextWrapping="Wrap" Margin="0,5,0,16" />
+                        <Button x:Name="RefreshHardwareButton" Content="Analizar hardware" HorizontalAlignment="Left" Click="RefreshHardwareButton_Click" />
+                        <Border Background="#0B1525" BorderBrush="#263B54" BorderThickness="1" CornerRadius="8" Padding="16" Margin="0,12,0,0">
+                            <StackPanel>
+                                <TextBlock Text="Sistema operativo" Foreground="{StaticResource MutedBrush}" />
+                                <TextBlock x:Name="OperatingSystemText" Text="Todavía no analizado" FontSize="15" Margin="0,2,0,12" TextWrapping="Wrap" />
+                                <TextBlock Text="Procesador" Foreground="{StaticResource MutedBrush}" />
+                                <TextBlock x:Name="ProcessorText" Text="—" FontSize="15" Margin="0,2,0,12" TextWrapping="Wrap" />
+                                <UniformGrid Columns="3" Margin="0,0,0,12">
+                                    <StackPanel>
+                                        <TextBlock Text="Núcleos físicos" Foreground="{StaticResource MutedBrush}" />
+                                        <TextBlock x:Name="CoresText" Text="—" FontSize="20" FontWeight="SemiBold" />
+                                    </StackPanel>
+                                    <StackPanel>
+                                        <TextBlock Text="Procesadores lógicos" Foreground="{StaticResource MutedBrush}" />
+                                        <TextBlock x:Name="LogicalProcessorsText" Text="—" FontSize="20" FontWeight="SemiBold" />
+                                    </StackPanel>
+                                    <StackPanel>
+                                        <TextBlock Text="RAM instalada" Foreground="{StaticResource MutedBrush}" />
+                                        <TextBlock x:Name="MemoryText" Text="—" FontSize="20" FontWeight="SemiBold" />
+                                    </StackPanel>
+                                </UniformGrid>
+                                <TextBlock Text="Adaptadores gráficos" Foreground="{StaticResource MutedBrush}" />
+                                <TextBlock x:Name="GpuText" Text="—" FontSize="14" Margin="0,2,0,12" TextWrapping="Wrap" />
+                                <TextBlock x:Name="HardwareTimestampText" Foreground="{StaticResource MutedBrush}" FontSize="11" />
+                                <TextBlock x:Name="HardwareWarningsText" Foreground="#FBBF79" TextWrapping="Wrap" Margin="0,10,0,0" />
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <TabItem Header="Profitability Simulator">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="18">
+                        <TextBlock Text="Simulador de rentabilidad" FontSize="21" FontWeight="SemiBold" />
+                        <TextBlock Text="Introduce supuestos actuales de la moneda y su red. El cálculo representa valor esperado, no un pago garantizado." Foreground="{StaticResource MutedBrush}" TextWrapping="Wrap" Margin="0,5,0,16" />
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="24" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0">
+                                <TextBlock Text="Hashrate del equipo (H/s)" />
+                                <TextBox x:Name="DeviceHashrateBox" Text="2000" />
+                                <TextBlock Text="Hashrate de red (H/s)" />
+                                <TextBox x:Name="NetworkHashrateBox" Text="0" />
+                                <TextBlock Text="Recompensa por bloque (monedas)" />
+                                <TextBox x:Name="BlockRewardBox" Text="0" />
+                                <TextBlock Text="Bloques estimados por día" />
+                                <TextBox x:Name="BlocksPerDayBox" Text="720" />
+                                <TextBlock Text="Precio de la moneda (USD)" />
+                                <TextBox x:Name="CoinPriceBox" Text="0" />
+                                <TextBlock Text="Tipo de cambio (UYU por USD)" />
+                                <TextBox x:Name="UyuPerUsdBox" Text="40" />
+                            </StackPanel>
+                            <StackPanel Grid.Column="2">
+                                <TextBlock Text="Consumo bajo carga (W)" />
+                                <TextBox x:Name="PowerWattsBox" Text="50" />
+                                <TextBlock Text="Tarifa eléctrica (UYU/kWh)" />
+                                <TextBox x:Name="ElectricityRateBox" Text="0" />
+                                <TextBlock Text="Disponibilidad (%)" />
+                                <TextBox x:Name="UptimeBox" Text="100" />
+                                <TextBlock Text="Comisión del pool (%)" />
+                                <TextBox x:Name="PoolFeeBox" Text="1" />
+                                <TextBlock Text="Otros costos mensuales (UYU)" />
+                                <TextBox x:Name="OtherCostsBox" Text="0" />
+                                <TextBlock Text="Periodo de cálculo" Foreground="{StaticResource MutedBrush}" Margin="0,10,0,0" />
+                                <TextBlock Text="30,4375 días promedio por mes" Foreground="{StaticResource MutedBrush}" />
+                            </StackPanel>
+                        </Grid>
+
+                        <Border Background="#10283B" BorderBrush="#1E4967" BorderThickness="1" CornerRadius="7" Padding="12" Margin="0,4,0,14">
+                            <TextBlock TextWrapping="Wrap" Foreground="#C8DDF0" FontSize="12">
+                                Los valores de red, recompensa, precio y cambio se cargan manualmente. 720 bloques/día es solo una referencia para un intervalo de 2 minutos. Un valor 0 en tarifa eléctrica supone electricidad gratuita; confirma el precio marginal de tu factura antes de evaluar el resultado.
+                            </TextBlock>
+                        </Border>
+                        <Button x:Name="CalculateButton" Content="Calcular escenario" HorizontalAlignment="Left" Click="CalculateButton_Click" />
+                        <TextBlock x:Name="CalculationErrorText" Foreground="#FCA5A5" TextWrapping="Wrap" Margin="0,8,0,0" />
+
+                        <TextBlock Text="Resultados mensuales estimados" FontSize="18" FontWeight="SemiBold" Margin="0,18,0,10" />
+                        <UniformGrid Columns="3" Rows="2">
+                            <Border Background="#0B1525" BorderBrush="#263B54" BorderThickness="1" CornerRadius="7" Padding="12" Margin="0,0,8,8">
+                                <StackPanel><TextBlock Text="Monedas esperadas / día (100% uptime)" Foreground="{StaticResource MutedBrush}"/><TextBlock x:Name="CoinsPerDayResult" Text="—" FontSize="18" FontWeight="SemiBold"/></StackPanel>
+                            </Border>
+                            <Border Background="#0B1525" BorderBrush="#263B54" BorderThickness="1" CornerRadius="7" Padding="12" Margin="0,0,8,8">
+                                <StackPanel><TextBlock Text="Ingreso bruto (UYU)" Foreground="{StaticResource MutedBrush}"/><TextBlock x:Name="GrossResult" Text="—" FontSize="18" FontWeight="SemiBold"/></StackPanel>
+                            </Border>
+                            <Border Background="#0B1525" BorderBrush="#263B54" BorderThickness="1" CornerRadius="7" Padding="12" Margin="0,0,0,8">
+                                <StackPanel><TextBlock Text="Energía (kWh)" Foreground="{StaticResource MutedBrush}"/><TextBlock x:Name="EnergyResult" Text="—" FontSize="18" FontWeight="SemiBold"/></StackPanel>
+                            </Border>
+                            <Border Background="#0B1525" BorderBrush="#263B54" BorderThickness="1" CornerRadius="7" Padding="12" Margin="0,0,8,0">
+                                <StackPanel><TextBlock Text="Costo eléctrico (UYU)" Foreground="{StaticResource MutedBrush}"/><TextBlock x:Name="ElectricityResult" Text="—" FontSize="18" FontWeight="SemiBold"/></StackPanel>
+                            </Border>
+                            <Border Background="#0B1525" BorderBrush="#263B54" BorderThickness="1" CornerRadius="7" Padding="12" Margin="0,0,8,0">
+                                <StackPanel><TextBlock Text="Comisión del pool (UYU)" Foreground="{StaticResource MutedBrush}"/><TextBlock x:Name="PoolFeeResult" Text="—" FontSize="18" FontWeight="SemiBold"/></StackPanel>
+                            </Border>
+                            <Border Background="#102B26" BorderBrush="#236B5B" BorderThickness="1" CornerRadius="7" Padding="12">
+                                <StackPanel><TextBlock Text="Resultado neto (UYU)" Foreground="#9ADBCB"/><TextBlock x:Name="NetResult" Text="—" FontSize="20" FontWeight="Bold"/></StackPanel>
+                            </Border>
+                        </UniformGrid>
+                        <TextBlock x:Name="BreakEvenText" Text="Precio eléctrico de equilibrio: —" Foreground="{StaticResource MutedBrush}" Margin="0,12,0,0" />
+                        <TextBlock x:Name="ProfitabilityStatusText" Text="Completa los datos de red y mercado para calcular." TextWrapping="Wrap" Margin="0,5,0,0" />
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+        </TabControl>
+
+        <DockPanel Grid.Row="3" Margin="0,12,0,0">
+            <TextBlock Text="NexusMiner MVP 0.1 · Solo análisis local y simulación" Foreground="{StaticResource MutedBrush}" FontSize="11" />
+            <TextBlock DockPanel.Dock="Right" Text="No constituye asesoramiento financiero" Foreground="{StaticResource MutedBrush}" FontSize="11" />
+        </DockPanel>
+    </Grid>
+</Window>

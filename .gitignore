@@ -1,0 +1,16 @@
+# .NET
+**/bin/
+**/obj/
+.vs/
+*.user
+*.suo
+
+# Build outputs
+artifacts/
+publish/
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

@@ -1,0 +1,36 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NexusMiner.Core", "src\NexusMiner.Core\NexusMiner.Core.csproj", "{B0A96AA2-30B5-4E1D-A1BB-AB9A7B2A1001}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NexusMiner.Infrastructure.Windows", "src\NexusMiner.Infrastructure.Windows\NexusMiner.Infrastructure.Windows.csproj", "{B0A96AA2-30B5-4E1D-A1BB-AB9A7B2A1002}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NexusMiner.Desktop", "src\NexusMiner.Desktop\NexusMiner.Desktop.csproj", "{B0A96AA2-30B5-4E1D-A1BB-AB9A7B2A1003}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NexusMiner.Core.Tests", "tests\NexusMiner.Core.Tests\NexusMiner.Core.Tests.csproj", "{B0A96AA2-30B5-4E1D-A1BB-AB9A7B2A1004}"
+EndProject
+Global
+    GlobalSection(SolutionConfigurationPlatforms) = preSolution
+        Debug|Any CPU = Debug|Any CPU
+        Release|Any CPU = Release|Any CPU
+    EndGlobalSection
+    GlobalSection(ProjectConfigurationPlatforms) = postSolution
+        {B0A96AA2-30B5-4E1D-A1BB-AB9A7B2A1001}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+        {B0A96AA2-30B5-4E1D-A1BB-AB9A7B2A1001}.Debug|Any CPU.Build.0 = Debug|Any CPU
+        {B0A96AA2-30B5-4E1D-A1BB-AB9A7B2A1001}.Release|Any CPU.ActiveCfg = Release|Any CPU
+        {B0A96AA2-30B5-4E1D-A1BB-AB9A7B2A1001}.Release|Any CPU.Build.0 = Release|Any CPU
+        {B0A96AA2-30B5-4E1D-A1BB-AB9A7B2A1002}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+        {B0A96AA2-30B5-4E1D-A1BB-AB9A7B2A1002}.Debug|Any CPU.Build.0 = Debug|Any CPU
+        {B0A96AA2-30B5-4E1D-A1BB-AB9A7B2A1002}.Release|Any CPU.ActiveCfg = Release|Any CPU
+        {B0A96AA2-30B5-4E1D-A1BB-AB9A7B2A1002}.Release|Any CPU.Build.0 = Release|Any CPU
+        {B0A96AA2-30B5-4E1D-A1BB-AB9A7B2A1003}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+        {B0A96AA2-30B5-4E1D-A1BB-AB9A7B2A1003}.Debug|Any CPU.Build.0 = Debug|Any CPU
+        {B0A96AA2-30B5-4E1D-A1BB-AB9A7B2A1003}.Release|Any CPU.ActiveCfg = Release|Any CPU
+        {B0A96AA2-30B5-4E1D-A1BB-AB9A7B2A1003}.Release|Any CPU.Build.0 = Release|Any CPU
+        {B0A96AA2-30B5-4E1D-A1BB-AB9A7B2A1004}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+        {B0A96AA2-30B5-4E1D-A1BB-AB9A7B2A1004}.Debug|Any CPU.Build.0 = Debug|Any CPU
+        {B0A96AA2-30B5-4E1D-A1BB-AB9A7B2A1004}.Release|Any CPU.ActiveCfg = Release|Any CPU
+        {B0A96AA2-30B5-4E1D-A1BB-AB9A7B2A1004}.Release|Any CPU.Build.0 = Release|Any CPU
+    EndGlobalSection
+EndGlobal

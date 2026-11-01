@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>NexusMiner.Desktop</RootNamespace>
+    <AssemblyName>NexusMiner</AssemblyName>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NexusMiner.Core\NexusMiner.Core.csproj" />
+    <ProjectReference Include="..\NexusMiner.Infrastructure.Windows\NexusMiner.Infrastructure.Windows.csproj" />
+  </ItemGroup>
+</Project>
